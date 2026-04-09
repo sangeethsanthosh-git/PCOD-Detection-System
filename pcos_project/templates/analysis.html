@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Analysis | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="panel-card mb-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+            <span class="hero-tag">Dynamic analytics</span>
+            <h2 class="panel-title mt-3 mb-1">User-specific PCOS risk analysis</h2>
+            <p class="text-muted mb-0">Charts refresh from live JSON endpoints and switch between symptom contribution and clinical contribution based on the latest mode used.</p>
+        </div>
+        <button id="refreshAnalyticsBtn" class="btn btn-outline-primary" data-endpoint="{% url 'api_analysis_data' %}">
+            <i class="fa-solid fa-rotate-right me-2"></i>Refresh Charts
+        </button>
+    </div>
+</section>
+
+<div id="analysisEmptyState" class="status-banner d-none">
+    <div class="alert alert-info mb-0">Run a prediction to view personalized PCOS analysis charts.</div>
+</div>
+
+<section class="row g-4" id="analysisBoard" data-endpoint="{% url 'api_analysis_data' %}">
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3">Risk Probability</h5>
+            <canvas id="analysisRiskChart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3">AI Feature Contribution</h5>
+            <canvas id="symptomContributionChart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3">BMI vs PCOS Risk</h5>
+            <canvas id="bmiRiskChart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3">Age vs PCOS Risk</h5>
+            <canvas id="ageRiskChart"></canvas>
+        </div>
+    </div>
+</section>
+
+{{ last_prediction|json_script:"initial-analysis-prediction" }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/charts.js' %}"></script>
+{% endblock %}

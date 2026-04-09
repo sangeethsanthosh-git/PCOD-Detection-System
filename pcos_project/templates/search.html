@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Search | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="panel-card mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-lg-7">
+            <span class="hero-tag">Smart query support</span>
+            <h2 class="panel-title mt-3 mb-1">Google suggestion search for PCOS questions</h2>
+            <p class="text-muted mb-0">Type a symptom, treatment, or lifestyle question and the page will stream suggestion phrases without reloading.</p>
+        </div>
+        <div class="col-lg-5">
+            <label class="form-label">Ask a PCOS question</label>
+            <div class="position-relative">
+                <input id="assistantQueryInput" type="text" class="form-control" placeholder="PCOS hair loss" value="{{ initial_query }}" data-endpoint="{% url 'api_suggestions' %}" autocomplete="off">
+                <div id="searchSuggestionDropdown" class="autocomplete-panel d-none"></div>
+            </div>
+        </div>
+    </div>
+    <div id="searchMessage" class="mt-3"></div>
+</section>
+
+<section class="row g-4">
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3"><i class="fa-solid fa-magnifying-glass me-2 text-primary"></i>Suggestion phrases</h5>
+            <div id="suggestionBox" class="suggestion-box"></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel-card h-100">
+            <h5 class="mb-3"><i class="fa-solid fa-circle-question me-2 text-primary"></i>Common PCOS FAQs</h5>
+            <div class="accordion" id="faqAccordion">
+                {% for faq in faqs %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ forloop.counter }}">
+                            {{ faq.question }}
+                        </button>
+                    </h2>
+                    <div id="faq{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ faq.answer }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="faqMatchList" class="mt-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

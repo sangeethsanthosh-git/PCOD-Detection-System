@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Education | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="panel-card mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-lg-7">
+            <span class="hero-tag">Patient education</span>
+            <h2 class="panel-title mt-3 mb-1">Video-based PCOS education</h2>
+            <p class="text-muted mb-0">Search only PCOS-related topics. Videos load as thumbnail cards and open in an embedded player when selected.</p>
+        </div>
+        <div class="col-lg-5">
+            <form id="videoSearchForm" class="row g-2" data-endpoint="{% url 'api_videos' %}">
+                <div class="col-8">
+                    <label class="form-label">Topic</label>
+                    <input type="text" name="q" class="form-control" value="PCOS treatment" placeholder="PCOS diet, exercise, fertility">
+                </div>
+                <div class="col-4">
+                    <label class="form-label d-block opacity-0">Search</label>
+                    <button class="btn btn-primary w-100" type="submit"><i class="fa-brands fa-youtube me-2"></i>Load</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mt-3 d-flex flex-wrap gap-2">
+        {% for topic in video_topics %}
+        <button class="btn btn-sm btn-light video-topic-chip" type="button" data-topic="{{ topic }}">{{ topic }}</button>
+        {% endfor %}
+    </div>
+    <div id="videoMessage" class="mt-3"></div>
+</section>
+
+<section id="videoResults" class="row g-3"></section>
+
+<div class="modal fade" id="videoPlayerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="videoPlayerTitle" class="modal-title">PCOS Education Video</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <iframe id="videoPlayerFrame" src="" title="PCOS education video" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/education.js' %}"></script>
+{% endblock %}

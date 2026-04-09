@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Doctors | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="panel-card mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-lg-6">
+            <span class="hero-tag">Specialist locator</span>
+            <h2 class="panel-title mt-3 mb-1">Find nearby gynecology and PCOS care providers</h2>
+            <p class="text-muted mb-0">Search by current location or type a city/address. Results are filtered to gynecology-focused hospitals and clinics only.</p>
+        </div>
+        <div class="col-lg-6">
+            <form
+                id="doctorSearchForm"
+                class="row g-2"
+                data-endpoint="{% url 'api_doctors' %}"
+                data-autocomplete-endpoint="{% url 'api_location_autocomplete' %}"
+            >
+                <div class="col-12 col-md-7 position-relative">
+                    <label class="form-label">Location</label>
+                    <input
+                        id="doctorLocationInput"
+                        type="text"
+                        name="location"
+                        class="form-control"
+                        placeholder="Mumbai, Delhi, Bangalore"
+                        autocomplete="off"
+                    >
+                    <div id="doctorAutocompleteList" class="autocomplete-panel d-none"></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label d-block opacity-0">Search</label>
+                    <button class="btn btn-primary w-100" type="submit"><i class="fa-solid fa-location-dot me-2"></i>Search</button>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label d-block opacity-0">Locate</label>
+                    <button id="useCurrentLocationBtn" class="btn btn-outline-primary w-100" type="button"><i class="fa-solid fa-location-crosshairs"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mt-3 d-flex flex-wrap gap-2">
+        {% for location in sample_locations %}
+        <button class="btn btn-sm btn-light doctor-location-chip" type="button" data-location="{{ location }}">{{ location }}</button>
+        {% endfor %}
+    </div>
+    <div id="doctorMessage" class="mt-3"></div>
+</section>
+
+<section id="doctorResults" class="row g-3"></section>
+{% endblock %}
+
+{% block extra_js %}
+{% if google_maps_browser_key %}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_browser_key }}&libraries=places"></script>
+{% endif %}
+<script src="{% static 'js/doctors.js' %}"></script>
+{% endblock %}

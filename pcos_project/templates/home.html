@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Home | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="hero-card mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="hero-tag">Clinical AI decision support</span>
+            <h1 class="hero-title mt-3">Hospital-style PCOS screening, analytics, and education in one workflow.</h1>
+            <p class="hero-copy">
+                Run a prediction, inspect the supporting clinical signals, find nearby specialists, and surface patient-friendly education without leaving the platform.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="{% url 'predict' %}" class="btn btn-primary btn-lg"><i class="fa-solid fa-vial-circle-check me-2"></i>Start Prediction</a>
+                <a href="{% url 'analysis' %}" class="btn btn-outline-primary btn-lg"><i class="fa-solid fa-chart-line me-2"></i>Open Analysis</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="glass-card">
+                <p class="small text-uppercase text-muted mb-2">Model status</p>
+                <div class="mini-metric">
+                    <span>Prediction accuracy</span>
+                    <strong>{{ stats.prediction_accuracy }}</strong>
+                </div>
+                <div class="mini-metric">
+                    <span>Patients analyzed</span>
+                    <strong>{{ stats.patients_analyzed }}</strong>
+                </div>
+                <div class="mini-metric">
+                    <span>High risk cases</span>
+                    <strong>{{ stats.high_risk_cases }}</strong>
+                </div>
+                <div class="mini-metric mb-0">
+                    <span>Recent predictions</span>
+                    <strong>{{ stats.recent_predictions }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <span class="stat-label">Patients Analyzed</span>
+            <h3>{{ stats.patients_analyzed }}</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <span class="stat-label">Prediction Accuracy</span>
+            <h3>{{ stats.prediction_accuracy }}</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <span class="stat-label">High Risk Cases</span>
+            <h3>{{ stats.high_risk_cases }}</h3>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card">
+            <span class="stat-label">Recent Predictions</span>
+            <h3>{{ stats.recent_predictions }}</h3>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-lg-7">
+        <div class="panel-card h-100">
+            <div class="panel-heading">
+                <h3 class="panel-title mb-0"><i class="fa-solid fa-circle-info me-2 text-primary"></i>Platform Highlights</h3>
+            </div>
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="mini-feature">
+                        <h6>Leak-safe model scoring</h6>
+                        <p>Prediction calls reuse the trained model and verified scaler path from the saved artifacts.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mini-feature">
+                        <h6>Dynamic analysis</h6>
+                        <p>Chart.js dashboards refresh from JSON APIs, so the analysis page follows the latest patient submission.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mini-feature">
+                        <h6>Specialist support</h6>
+                        <p>Doctor lookup uses live location search with cached responses for faster repeated queries.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mini-feature">
+                        <h6>Patient education</h6>
+                        <p>Video search and PCOS topic suggestions are available without leaving the UI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel-card h-100">
+            <div class="panel-heading">
+                <h3 class="panel-title mb-0"><i class="fa-solid fa-newspaper me-2 text-primary"></i>Latest Medical Articles</h3>
+            </div>
+            {% for article in articles %}
+            <div class="article-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                    <div>
+                        <h6 class="mb-1">{{ article.title }}</h6>
+                        <p class="small text-muted mb-1">{{ article.source }}</p>
+                        <p class="small mb-0">{{ article.summary }}</p>
+                    </div>
+                    <span class="chip-soft">PCOS</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

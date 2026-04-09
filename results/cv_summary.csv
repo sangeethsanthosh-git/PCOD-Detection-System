@@ -1,0 +1,4 @@
+model,best_cv_f1,best_params
+RandomForest,0.829198460320162,"{'n_estimators': 200, 'min_samples_split': 2, 'min_samples_leaf': 3, 'max_depth': None}"
+XGBoost,0.8135293060050341,"{'subsample': 0.8, 'n_estimators': 200, 'max_depth': 4, 'learning_rate': 0.05, 'colsample_bytree': 1.0}"
+LightGBM,0.8078830034902224,"{'subsample': 0.8, 'num_leaves': 31, 'n_estimators': 200, 'learning_rate': 0.05, 'colsample_bytree': 0.8}"

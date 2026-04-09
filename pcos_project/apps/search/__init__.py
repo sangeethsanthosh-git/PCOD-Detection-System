@@ -1,0 +1,1 @@
+"""Search assistant app package."""

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Result | PCOS AI Clinical Support Platform{% endblock %}
+{% block content %}
+<section class="panel-card mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+            <span class="hero-tag">Stored session result</span>
+            <h2 class="panel-title mt-3 mb-1">Latest PCOS prediction</h2>
+            <p class="text-muted mb-0">This page reflects the most recent prediction stored in the current browser session.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'analysis' %}" class="btn btn-primary">
+                <i class="fa-solid fa-chart-column me-2"></i>View Detailed Analysis
+            </a>
+            <a href="{% url 'predict' %}" class="btn btn-outline-primary"><i class="fa-solid fa-pen-to-square me-2"></i>Run Another Prediction</a>
+        </div>
+    </div>
+</section>
+
+{% if last_prediction.result %}
+<section class="row g-4">
+    <div class="col-lg-7">
+        <div class="panel-card h-100">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                <span class="chip-soft">{{ last_prediction.result.mode_label }}</span>
+                <span class="small text-muted">Calculated BMI: {{ last_prediction.result.bmi }}</span>
+            </div>
+            <div class="risk-strip risk-{{ last_prediction.result.risk|lower }} mb-4">
+                <div>
+                    <span class="small text-uppercase">Risk tier</span>
+                    <h3 class="mb-0">{{ last_prediction.result.risk }}</h3>
+                </div>
+                <div class="text-end">
+                    <span class="small text-uppercase">Probability</span>
+                    <h3 class="mb-0">{{ last_prediction.result.probability_pct }}%</h3>
+                </div>
+            </div>
+            <p class="text-muted mb-4">{{ last_prediction.result.explanation }}</p>
+            <h5 class="mb-3">Key contributing features</h5>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                {% for contributor in last_prediction.result.contributors %}
+                <span class="chip-soft">{{ contributor }}</span>
+                {% endfor %}
+            </div>
+            <h5 class="mb-3">AI explanation panel</h5>
+            <div class="list-group list-group-flush mb-4">
+                {% for feature, score in last_prediction.result.ai_explanation.items %}
+                <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                    <span>{{ feature }}</span>
+                    <strong>{{ score }}</strong>
+                </div>
+                {% empty %}
+                <div class="list-group-item px-0 text-muted">Per-feature explanation will appear after a SHAP-enabled prediction.</div>
+                {% endfor %}
+            </div>
+            <h5 class="mb-3">Submitted clinical inputs</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <tbody>
+                        {% for item in last_prediction.result.inputs %}
+                        <tr>
+                            <th>{{ item.label }}</th>
+                            <td>{{ item.value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel-card h-100 text-center risk-gauge-card">
+            <div class="panel-heading">
+                <h3 class="panel-title mb-0"><i class="fa-solid fa-gauge-high me-2 text-primary"></i>PCOS Risk Gauge</h3>
+            </div>
+            <div class="gauge-wrap risk-gauge-wrap mx-auto mt-3">
+                <canvas id="riskGaugeChart"></canvas>
+            </div>
+            <div class="risk-text mt-3">
+                <h2 id="riskValue" class="mb-1">{{ probability }}%</h2>
+                <p id="riskLabel" class="mb-0">{{ gauge_risk_label }}</p>
+            </div>
+            <p id="riskGaugeDescription" class="risk-gauge-note mt-3 mb-0">
+                Based on the provided symptoms and lifestyle indicators, the AI model estimates your PCOS risk probability.
+            </p>
+            <div class="mt-4">
+                <a href="{% url 'analysis' %}" class="btn btn-primary">
+                    <i class="fa-solid fa-chart-line me-2"></i>View Detailed Analysis
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{{ last_prediction|json_script:"initial-prediction-data" }}
+{% else %}
+<section class="panel-card empty-state">
+    <i class="fa-solid fa-vial-circle-check"></i>
+    <h3>No saved prediction yet</h3>
+    <p class="mb-0">Run a prediction first and this page will keep the last result available for review.</p>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if last_prediction.result %}
+<script src="{% static 'js/predict.js' %}"></script>
+{% endif %}
+{% endblock %}
