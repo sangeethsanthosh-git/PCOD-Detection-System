@@ -7,6 +7,7 @@ from typing import Dict, List, Tuple
 import pandas as pd
 from lightgbm import LGBMClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
 from xgboost import XGBClassifier
 
@@ -17,8 +18,19 @@ SEARCH_N_JOBS = -1
 
 
 def build_model_search_space(random_state: int = 42, n_jobs: int = -1) -> Dict[str, Tuple[object, Dict[str, List[object]]]]:
-    """Define fast model set and randomized search spaces."""
+    """Define tuned model candidates and compact search spaces."""
     return {
+        "LogisticRegression": (
+            LogisticRegression(
+                max_iter=8000,
+                class_weight="balanced",
+                solver="lbfgs",
+                random_state=random_state,
+            ),
+            {
+                "C": [0.05, 0.1, 0.2, 0.5, 1.0],
+            },
+        ),
         "RandomForest": (
             RandomForestClassifier(
                 random_state=random_state,
@@ -67,6 +79,14 @@ def build_model_search_space(random_state: int = 42, n_jobs: int = -1) -> Dict[s
     }
 
 
+def _search_iterations(param_dist: Dict[str, List[object]]) -> int:
+    """Cap randomized-search iterations at the finite grid size."""
+    grid_size = 1
+    for values in param_dist.values():
+        grid_size *= max(1, len(values))
+    return min(SEARCH_N_ITER, grid_size)
+
+
 def train_and_tune_models(
     X_train: pd.DataFrame,
     y_train: pd.Series,
@@ -77,7 +97,7 @@ def train_and_tune_models(
     tuned_models: Dict[str, object] = {}
     summary_rows = []
 
-    for model_name in ["RandomForest", "XGBoost", "LightGBM"]:
+    for model_name in ["LogisticRegression", "RandomForest", "XGBoost", "LightGBM"]:
         best_estimator = None
         best_params = None
         best_score = None
@@ -92,7 +112,7 @@ def train_and_tune_models(
             search = RandomizedSearchCV(
                 estimator=model,
                 param_distributions=param_dist,
-                n_iter=SEARCH_N_ITER,
+                n_iter=_search_iterations(param_dist),
                 scoring="f1",
                 cv=cv,
                 n_jobs=worker_count,

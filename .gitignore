@@ -17,3 +17,6 @@ pcos_project/dist/*
 pcos_project/staticfiles/
 
 *.log
+temp_mendeley*.html
+temp_mendeley*.js
+dataset/external/

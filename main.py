@@ -35,7 +35,7 @@ from src.utils import ensure_directories
 RANDOM_STATE = 42
 TEST_SIZE = 0.20
 TOP_K_FEATURES = 20
-CORRELATION_THRESHOLD = 0.95
+CORRELATION_THRESHOLD = 0.85
 
 
 def main() -> None:
