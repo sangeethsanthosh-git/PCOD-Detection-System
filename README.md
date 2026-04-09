@@ -57,7 +57,7 @@ PCOD-Detection-System/
 ### 1. Activate the existing virtual environment
 
 ```powershell
-C:\pcod\venv\Scripts\Activate.ps1
+C:\PCOD-Detection-System\venv\Scripts\Activate.ps1
 ```
 
 ### 2. Recreate dependencies if needed
@@ -76,8 +76,8 @@ If you are rebuilding the environment from scratch, install the main packages us
 ### 3. Run the Django app
 
 ```powershell
-cd C:\pcod\pcos_project
-C:\pcod\venv\Scripts\python.exe manage.py runserver
+cd C:\PCOD-Detection-System\pcos_project
+C:\PCOD-Detection-System\venv\Scripts\python.exe manage.py runserver
 ```
 
 Open:
@@ -91,8 +91,8 @@ http://127.0.0.1:8000/
 Run the full training pipeline from the repo root:
 
 ```powershell
-cd C:\pcod
-C:\pcod\venv\Scripts\python.exe main.py
+cd C:\PCOD-Detection-System
+C:\PCOD-Detection-System\venv\Scripts\python.exe main.py
 ```
 
 This regenerates:
@@ -105,10 +105,10 @@ This regenerates:
 
 ## Build the Windows Executable
 
-From `C:\pcod\pcos_project`:
+From `C:\PCOD-Detection-System\pcos_project`:
 
 ```powershell
-C:\pcod\venv\Scripts\pyinstaller.exe --noconfirm --clean launch_app.spec
+C:\PCOD-Detection-System\venv\Scripts\pyinstaller.exe --noconfirm --clean launch_app.spec
 ```
 
 The output executable is:
@@ -117,11 +117,11 @@ The output executable is:
 pcos_project\dist\pcod.exe
 ```
 
-Detailed packaging notes are in [BUILD_EXE.md](C:/pcod/pcos_project/BUILD_EXE.md).
+Detailed packaging notes are in [BUILD_EXE.md](C:/PCOD-Detection-System/pcos_project/BUILD_EXE.md).
 
 ## Notes on External Data
 
-I checked additional public PCOS sources and documented the useful ones in [DATASET_SOURCES.md](C:/pcod/DATASET_SOURCES.md).
+I checked additional public PCOS sources and documented the useful ones in [DATASET_SOURCES.md](C:/PCOD-Detection-System/DATASET_SOURCES.md).
 
 Important takeaway:
 - the clinical dataset family already in this repo remains the best trustworthy source for the current tabular model
