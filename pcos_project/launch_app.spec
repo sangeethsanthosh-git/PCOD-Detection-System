@@ -3,7 +3,14 @@ from PyInstaller.utils.hooks import collect_data_files
 from PyInstaller.utils.hooks import collect_submodules
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('templates', 'templates'), ('static', 'static'), ('models', 'models'), ('dataset', 'dataset'), ('db.sqlite3', '.')]
+datas = [
+    ('templates', 'templates'),
+    ('static', 'static'),
+    ('models', 'models'),
+    ('dataset', 'dataset'),
+    ('..\\results', 'results'),
+    ('db.sqlite3', '.'),
+]
 binaries = []
 hiddenimports = ['pcos_project.urls']
 datas += collect_data_files('webview')

@@ -116,7 +116,7 @@ def build_dashboard_summary() -> dict[str, str]:
     df = load_reference_frame()
     summary = {
         "patients_analyzed": f"{len(df)}",
-        "prediction_accuracy": "92.7%",
+        "prediction_accuracy": "Model ready",
         "high_risk_cases": f"{int(df['pcos_y_n'].sum())}",
         "recent_predictions": "Dual-mode ready",
     }

@@ -23,6 +23,7 @@ Notes:
 - Replace `assets\favicon.ico` if you want to swap in a different desktop icon later.
 - `templates`, `static`, `models`, and `db.sqlite3` are bundled into the executable.
 - `dataset;dataset` includes the in-project dataset folder used by the analytics and default feature services.
+- `..\results;results` bundles the latest training metrics so the packaged dashboard shows the current model accuracy instead of a fallback placeholder.
 - The packaged runtime now validates the bundled dataset schema and ignores incompatible CSVs such as `dataset\data3.csv` when selecting the clinical reference dataset.
 - `--collect-submodules webview` and `--collect-data webview` are important because `pywebview` loads platform backends dynamically.
 - `--collect-all xgboost` is required because the bundled clinical model depends on `xgboost.dll` at unpickle time.
