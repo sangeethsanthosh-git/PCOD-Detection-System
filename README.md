@@ -1,6 +1,8 @@
-# PCOS AI Clinical Support Platform
+# PCOD Detection System
 
 A desktop-ready PCOS prediction platform built with Django, machine learning, and a packaged Windows executable.
+
+Desktop app name: `PCOS AI Clinical Support Platform`
 
 It supports:
 - `Basic Screening` for symptom-based risk estimation
@@ -12,8 +14,8 @@ It supports:
 
 Download the latest desktop app here:
 
-- [Download `pcod.exe`](https://github.com/sangeethsanthosh-git/pcod/releases/latest/download/pcod.exe)
-- [View all releases](https://github.com/sangeethsanthosh-git/pcod/releases/latest)
+- [Download `pcod.exe`](https://github.com/sangeethsanthosh-git/PCOD-Detection-System/releases/latest/download/pcod.exe)
+- [View all releases](https://github.com/sangeethsanthosh-git/PCOD-Detection-System/releases/latest)
 
 The packaged executable uses the icon from `assets/favicon.ico` and runs the Django app inside a native `pywebview` desktop window.
 
@@ -40,7 +42,7 @@ The current best production model is `LogisticRegression`, with coefficient-base
 ## Project Structure
 
 ```text
-pcod/
+PCOD-Detection-System/
 |- assets/                     # icon assets
 |- dataset/                    # training data
 |- models/                     # exported model artifacts
@@ -138,4 +140,4 @@ Important takeaway:
 
 ## Repository
 
-- GitHub: <https://github.com/sangeethsanthosh-git/pcod>
+- GitHub: <https://github.com/sangeethsanthosh-git/PCOD-Detection-System>
